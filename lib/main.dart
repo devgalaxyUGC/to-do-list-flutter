@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool opacity = true;
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +25,36 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
                 title: const Text('To Do List!'),
                 backgroundColor: Colors.amber),
-            body: ListView(children: const [
-              Padding(
-                padding: EdgeInsets.only(top: 8),
-                child: Tasks('Playing an instrument'),
-              ),
-              Tasks('Learn Flutter and Dart'),
-              Tasks('Watch Youtube videos')
-            ]),
-            floatingActionButton: FloatingActionButton(onPressed: () {})));
+            body: AnimatedOpacity(
+              duration: const Duration(milliseconds: 3000),
+              opacity: opacity ? 1 : 0,
+              child: ListView(children: const [
+                Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Tasks('Playing an instrument', 5,
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN3o_cZcXgl3377r9PSBCmffXmFvZ7NvwexIpQJtRmcg&s'),
+                ),
+                Tasks('Learn Flutter and Dart', 4,
+                    'https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png'),
+                Tasks('Watch Youtube videos', 1,
+                    'https://cdn-icons-png.flaticon.com/512/1384/1384060.png')
+              ]),
+            ),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    opacity = !opacity;
+                  });
+                },
+                child: const Icon(Icons.remove_red_eye))));
   }
 }
 
 class Tasks extends StatefulWidget {
   final String taskName;
-  const Tasks(this.taskName, {super.key});
+  final String imageSource;
+  final int difficulty;
+  const Tasks(this.taskName, this.difficulty, this.imageSource, {super.key});
 
   @override
   State<Tasks> createState() => _TaskState();
@@ -40,7 +62,6 @@ class Tasks extends StatefulWidget {
 
 class _TaskState extends State<Tasks> {
   int level = 0;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,21 +89,72 @@ class _TaskState extends State<Tasks> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(4)),
                       width: 72,
                       height: 100,
-                      color: Colors.black26,
-                    ),
-                    Container(
-                      width: 200,
-                      child: Text(
-                        widget.taskName,
-                        style: const TextStyle(
-                            fontSize: 20, overflow: TextOverflow.ellipsis),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.network(
+                          widget.imageSource,
+                          fit: BoxFit.cover,
+                        ),
                       ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 200,
+                          child: Text(
+                            widget.taskName,
+                            style: const TextStyle(
+                                fontSize: 20, overflow: TextOverflow.ellipsis),
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: (widget.difficulty >= 1)
+                                  ? Colors.amber
+                                  : Colors.black,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.difficulty >= 2)
+                                  ? Colors.amber
+                                  : Colors.black,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.difficulty >= 3)
+                                  ? Colors.amber
+                                  : Colors.black,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.difficulty >= 4)
+                                  ? Colors.amber
+                                  : Colors.black,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: (widget.difficulty >= 5)
+                                  ? Colors.amber
+                                  : Colors.black,
+                            )
+                          ],
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4)),
                         height: 52,
                         width: 52,
                         child: ElevatedButton(
