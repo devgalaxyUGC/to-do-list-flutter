@@ -17,7 +17,7 @@ class _InitialScreen extends State<InitialScreen> {
         appBar: AppBar(
             title: const Text('To Do List!'), backgroundColor: Colors.amber),
         body: AnimatedOpacity(
-          duration: const Duration(milliseconds: 3000),
+          duration: const Duration(milliseconds: 800),
           opacity: opacity ? 1 : 0,
           child: ListView(children: const [
             Padding(
