@@ -36,3 +36,30 @@ class Difficulty extends StatelessWidget {
     );
   }
 }
+
+class ProgressChangesBar extends StatefulWidget {
+  const ProgressChangesBar({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _ProgressChangesBar();
+}
+
+class _ProgressChangesBar extends State<ProgressChangesBar> {
+  int level = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 8,
+      ),
+      child: SizedBox(
+        width: 200,
+        child: LinearProgressIndicator(
+          color: Colors.orangeAccent,
+          value: level / 10,
+        ),
+      ),
+    );
+  }
+}
