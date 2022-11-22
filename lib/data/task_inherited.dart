@@ -6,9 +6,9 @@ class TaskInherited extends InheritedWidget {
       : super(key: key, child: child);
 
   final List<Tasks> listOfTasks = [
-    Tasks('Playing an instrument', 5, 'assets/images/playing_guitar.jpg'),
-    Tasks('Learn Flutter and Dart', 4, 'assets/images/flutter_icon.png'),
-    Tasks('Watch Youtube videos', 1, 'assets/images/youtube_icon.jpg'),
+    Tasks('Learning an instrument', 5, 'assets/images/playing_guitar.jpg'),
+    Tasks('Flutter and Dart', 4, 'assets/images/flutter_icon.png'),
+    Tasks('Courses on Youtube', 1, 'assets/images/youtube_icon.jpg'),
   ];
 
   static TaskInherited of(BuildContext context) {
