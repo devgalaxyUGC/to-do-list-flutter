@@ -10,7 +10,7 @@ class TaskRepoImpl implements ITaskRepo {
   @override
   Future<Either<Exception, TaskEntity>> getTask(String taskName) async {
     try {
-      return Right(await _taskDatasource.getTask());
+      return Right(await _taskDatasource.getTask(taskName));
     } on Exception catch (e) {
       return Left(e);
     }

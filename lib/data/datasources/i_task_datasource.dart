@@ -5,5 +5,5 @@ import 'package:flutter_my_app/domain/entities/task_entity.dart';
 abstract class ITaskDataSource<T extends TaskEntity> {
   Future<void> save(T taskModel);
 
-  Future<T> getTask();
+  Future<T> getTask(String taskName);
 }

@@ -7,7 +7,7 @@ class TaskModel extends TaskEntity {
   TaskModel({required this.taskName, required this.difficulty, this.imgSrc})
       : super(name: taskName, difficulty: difficulty, imgSrc: imgSrc);
 
-  TaskModel fromJson(Map<String, dynamic> map) {
+  static TaskModel fromJson(Map<String, dynamic> map) {
     return TaskModel(
         taskName: map['taskName'],
         difficulty: map['difficulty'],
