@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 part 'task_model_hive.g.dart';
 
 @HiveType(typeId: 0)
-class TaskModelHive extends TaskEntity {
+class TaskModelHive extends TaskEntity with HiveObjectMixin {
   @HiveField(0)
   String taskName;
 
