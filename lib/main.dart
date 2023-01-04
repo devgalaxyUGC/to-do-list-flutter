@@ -41,8 +41,6 @@ class HomePageTest extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.white),
         child: FloatingActionButton(
           onPressed: () {
-            var newTask =
-                TaskEntity(name: 'name', difficulty: 4, isFinished: true);
             taskControllerStore.fetch();
           },
         ),

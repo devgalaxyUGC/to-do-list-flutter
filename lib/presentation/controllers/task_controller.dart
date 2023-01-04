@@ -9,7 +9,7 @@ class TaskController = _TaskController with _$TaskController;
 
 abstract class _TaskController with Store {
   _TaskController(this._getTaskUsecase) {
-    fetch();
+    // fetch();
   }
 
   final IGetTaskUsecase _getTaskUsecase;
@@ -19,20 +19,33 @@ abstract class _TaskController with Store {
 
   TaskEntity? taskInCache;
 
+  // @action
+  // fetch() async {
+  //   final result = await _getTaskUsecase.call();
+
+  //   result.fold(
+  //     (error) => debugPrint(error.toString()),
+  //     (success) => {
+  //       taskInCache?.name = success.name,
+  //       taskInCache?.difficulty = success.difficulty,
+  //       taskInCache?.imgSrc = success.imgSrc,
+  //       taskInCache?.isFinished = success.isFinished,
+  //       list.add(success),
+  //       for (int i = 0; i < list.length; i++) {print(list.elementAt(i).name)}
+  //     },
+  //   );
+  // }
+
   @action
   fetch() async {
     final result = await _getTaskUsecase.call();
 
     result.fold(
-      (error) => debugPrint(error.toString()),
-      (success) => {
-        taskInCache?.name = success.name,
-        taskInCache?.difficulty = success.difficulty,
-        taskInCache?.imgSrc = success.imgSrc,
-        taskInCache?.isFinished = success.isFinished,
-        list.add(success),
-        for (int i = 0; i < list.length; i++) {print(list.elementAt(i).name)}
-      },
-    );
+        (error) => error,
+        (taskRecovered) => {
+              list.add(taskRecovered),
+              for (int i = 0; i < list.length; i++)
+                {print(list.elementAt(i).name)}
+            });
   }
 }
