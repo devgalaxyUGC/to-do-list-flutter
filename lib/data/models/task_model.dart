@@ -6,7 +6,7 @@ extension TaskModel on TaskEntity {
         name: json['name'],
         difficulty: json['difficulty'],
         imgSrc: json['imgSrc'],
-        isFinished: json['isFinished'] as bool);
+        isFinished: json['isFinished']);
   }
 
   Map toJson() {

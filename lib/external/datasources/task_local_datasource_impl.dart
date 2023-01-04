@@ -4,7 +4,12 @@ import 'package:flutter_my_app/data/models/task_model.dart';
 import 'package:flutter_my_app/domain/entities/task_entity.dart';
 
 class TaskLocalDataSourceImpl implements ITaskLocalDataSource {
-  final json = {'name': 'Read', 'difficulty': 1, 'imgSrc': 'src'};
+  final json = {
+    'name': 'Read',
+    'difficulty': 1,
+    'imgSrc': 'src',
+    'isFinished': true
+  };
 
   @override
   Future<TaskEntity> getTask() async {
