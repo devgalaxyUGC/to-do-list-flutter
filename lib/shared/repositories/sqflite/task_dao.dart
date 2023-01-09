@@ -20,23 +20,29 @@ class TaskDAO {
     final Database database = await SqfliteDatabase.getDatabaseInstance();
 
     final List<Map<String, dynamic>> data = await database.query(_tableName);
-    return dataList(data);
+    return _dataList(data);
   }
 
   Future<List<TaskEntity>> find(String taskName) async {
     final Database database = await SqfliteDatabase.getDatabaseInstance();
     final List<Map<String, dynamic>> data = await database
         .query(_tableName, where: '$_name = ?', whereArgs: [taskName]);
-    return dataList(data);
+    return _dataList(data);
   }
 
+  /// Method to insert tasks
   Future<void> save(TaskEntity taskEntity) async {
     final data = TaskModel.toJson(taskEntity);
     final Database database = await SqfliteDatabase.getDatabaseInstance();
     database.insert(_tableName, data);
   }
 
-  List<TaskEntity> dataList(List<Map<String, dynamic>> dataList) {
+  Future<void> deleteAll() async {
+    final Database database = await SqfliteDatabase.getDatabaseInstance();
+    database.delete(_tableName);
+  }
+
+  List<TaskEntity> _dataList(List<Map<String, dynamic>> dataList) {
     List<TaskEntity> listOfTasks = [];
     for (Map<String, dynamic> line in dataList) {
       final taskRecovered = TaskModel.fromJson(line);

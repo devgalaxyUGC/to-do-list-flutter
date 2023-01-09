@@ -24,6 +24,22 @@ mixin _$TaskController on _TaskController, Store {
     });
   }
 
+  late final _$listOfTasksAtom =
+      Atom(name: '_TaskController.listOfTasks', context: context);
+
+  @override
+  ObservableList<TaskEntity> get listOfTasks {
+    _$listOfTasksAtom.reportRead();
+    return super.listOfTasks;
+  }
+
+  @override
+  set listOfTasks(ObservableList<TaskEntity> value) {
+    _$listOfTasksAtom.reportWrite(value, super.listOfTasks, () {
+      super.listOfTasks = value;
+    });
+  }
+
   late final _$fetchAsyncAction =
       AsyncAction('_TaskController.fetch', context: context);
 
@@ -32,10 +48,19 @@ mixin _$TaskController on _TaskController, Store {
     return _$fetchAsyncAction.run(() => super.fetch());
   }
 
+  late final _$recoverAllTasksAsyncAction =
+      AsyncAction('_TaskController.recoverAllTasks', context: context);
+
+  @override
+  Future recoverAllTasks() {
+    return _$recoverAllTasksAsyncAction.run(() => super.recoverAllTasks());
+  }
+
   @override
   String toString() {
     return '''
-list: ${list}
+list: ${list},
+listOfTasks: ${listOfTasks}
     ''';
   }
 }

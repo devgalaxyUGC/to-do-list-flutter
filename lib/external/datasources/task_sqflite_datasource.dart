@@ -22,12 +22,24 @@ class TaskSqfliteDataSource implements ITaskSqfliteDataSource {
       final result = await taskDao.find('Drive');
 
       // Dados vão sendo populados no banco de dados. Ou seja, a cada apertada no botão, mais uma linha é inserida
-      if (result.length > 1) {
+      if (result.length > 46) {
         print('result is empty in datasource');
         print(result.length);
       }
       return result.first;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<TaskEntity>> getAllTasks() async {
+    try {
+      database = await SqfliteDatabase.getDatabaseInstance();
+      final TaskDAO taskDao = TaskDAO(database);
+
+      return await taskDao.findAll();
+    } on Exception catch (e) {
       rethrow;
     }
   }

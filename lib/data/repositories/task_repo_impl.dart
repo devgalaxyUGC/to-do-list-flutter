@@ -17,4 +17,13 @@ class TaskRepoImpl implements ITaskRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<Either<Exception, List<TaskEntity>>> getAllTasks() async {
+    try {
+      return Right(await _taskLocalDataSource.getAllTasks());
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
 }
