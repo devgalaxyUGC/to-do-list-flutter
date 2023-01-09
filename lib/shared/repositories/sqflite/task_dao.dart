@@ -42,6 +42,11 @@ class TaskDAO {
     database.delete(_tableName);
   }
 
+  Future<int> deleteTask(String name) async {
+    final Database database = await SqfliteDatabase.getDatabaseInstance();
+    return database.delete(_tableName, where: '$_name = ?', whereArgs: [name]);
+  }
+
   List<TaskEntity> _dataList(List<Map<String, dynamic>> dataList) {
     List<TaskEntity> listOfTasks = [];
     for (Map<String, dynamic> line in dataList) {

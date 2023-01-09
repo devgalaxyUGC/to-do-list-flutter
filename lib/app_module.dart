@@ -2,8 +2,10 @@ import 'package:flutter_my_app/data/datasources/i_task_local_datasource.dart';
 import 'package:flutter_my_app/data/datasources/i_task_sqflite_datasource.dart';
 import 'package:flutter_my_app/data/repositories/task_repo_impl.dart';
 import 'package:flutter_my_app/domain/repositories/i_task_repository.dart';
+import 'package:flutter_my_app/domain/usecases/create_task_usecase.dart';
 import 'package:flutter_my_app/domain/usecases/get_list_of_tasks_usecase.dart';
 import 'package:flutter_my_app/domain/usecases/get_task_usecase.dart';
+import 'package:flutter_my_app/domain/usecases/remove_task_usecase.dart';
 import 'package:flutter_my_app/external/datasources/task_local_datasource_impl.dart';
 import 'package:flutter_my_app/external/datasources/task_sqflite_datasource.dart';
 import 'package:flutter_my_app/presentation/controllers/task_controller.dart';
@@ -27,9 +29,14 @@ class AppModule {
 
     getIt.registerLazySingleton<IGetListOfTasksUsecase>(
         () => GetListOfTasksUsecaseImpl(getIt()));
-        
+
+    getIt.registerLazySingleton<IRemoveTaskUsecase>(
+        () => RemoveTaskUsecaseImpl(getIt()));
+
+    getIt.registerLazySingleton<ICreateNewTaskUsecase>(
+        () => CreateNewTaskUsecaseImpl(getIt()));
     // controllers
     getIt.registerFactory<TaskController>(
-        () => TaskController(getIt(), getIt()));
+        () => TaskController(getIt(), getIt(), getIt(), getIt()));
   }
 }

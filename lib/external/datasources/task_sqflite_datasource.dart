@@ -12,14 +12,12 @@ class TaskSqfliteDataSource implements ITaskSqfliteDataSource {
   final taskEntity = TaskEntity(name: 'Drive', difficulty: 5, isFinished: true);
 
   @override
-  Future<TaskEntity> getTask() async {
+  Future<TaskEntity> getTask(String task) async {
     try {
       database = await SqfliteDatabase.getDatabaseInstance();
       final TaskDAO taskDao = TaskDAO(database);
 
-      database.insert('tasksTable', TaskModel.toJson(taskEntity));
-
-      final result = await taskDao.find('Drive');
+      final result = await taskDao.find(task);
 
       // Dados vão sendo populados no banco de dados. Ou seja, a cada apertada no botão, mais uma linha é inserida
       if (result.length > 46) {
@@ -39,6 +37,37 @@ class TaskSqfliteDataSource implements ITaskSqfliteDataSource {
       final TaskDAO taskDao = TaskDAO(database);
 
       return await taskDao.findAll();
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteTask(String name) async {
+    try {
+      database = await SqfliteDatabase.getDatabaseInstance();
+      final TaskDAO taskDao = TaskDAO(database);
+
+      final result = await taskDao.deleteTask(name);
+      print('quantidade de linhas deletadas: $result');
+
+      if (result == 1) {
+        return;
+      } else {
+        throw Exception('More than 1 element');
+      }
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> insert(TaskEntity newTask) async {
+    try {
+      database = await SqfliteDatabase.getDatabaseInstance();
+      final TaskDAO taskDao = TaskDAO(database);
+
+      await taskDao.save(newTask);
     } on Exception catch (e) {
       rethrow;
     }

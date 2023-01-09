@@ -44,8 +44,8 @@ mixin _$TaskController on _TaskController, Store {
       AsyncAction('_TaskController.fetch', context: context);
 
   @override
-  Future fetch() {
-    return _$fetchAsyncAction.run(() => super.fetch());
+  Future fetch(String task) {
+    return _$fetchAsyncAction.run(() => super.fetch(task));
   }
 
   late final _$recoverAllTasksAsyncAction =
@@ -54,6 +54,14 @@ mixin _$TaskController on _TaskController, Store {
   @override
   Future recoverAllTasks() {
     return _$recoverAllTasksAsyncAction.run(() => super.recoverAllTasks());
+  }
+
+  late final _$deleteNamedTaskAsyncAction =
+      AsyncAction('_TaskController.deleteNamedTask', context: context);
+
+  @override
+  Future deleteNamedTask(String name) {
+    return _$deleteNamedTaskAsyncAction.run(() => super.deleteNamedTask(name));
   }
 
   @override

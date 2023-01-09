@@ -10,9 +10,9 @@ class TaskRepoImpl implements ITaskRepo {
   final ITaskSqfliteDataSource _taskLocalDataSource;
 
   @override
-  Future<Either<Exception, TaskEntity>> getTaskInfo() async {
+  Future<Either<Exception, TaskEntity>> getTaskInfo(String task) async {
     try {
-      return Right(await _taskLocalDataSource.getTask());
+      return Right(await _taskLocalDataSource.getTask(task));
     } on Exception {
       rethrow;
     }
@@ -23,6 +23,24 @@ class TaskRepoImpl implements ITaskRepo {
     try {
       return Right(await _taskLocalDataSource.getAllTasks());
     } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Either<Exception, void>> delete(String name) async {
+    try {
+      return Right(await _taskLocalDataSource.deleteTask(name));
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+  
+  @override
+  Future<Either<Exception, void>> insert(TaskEntity newTask) async {
+    try{
+      return Right(await _taskLocalDataSource.insert(newTask));
+    } on Exception {
       rethrow;
     }
   }

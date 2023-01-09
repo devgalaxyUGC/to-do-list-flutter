@@ -41,7 +41,7 @@ class HomePageTest extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.white),
         child: FloatingActionButton(
           onPressed: () {
-            taskControllerStore.fetch();
+            taskControllerStore.recoverAllTasks();
           },
         ),
       ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_my_app/domain/entities/task_entity.dart';
+import 'package:flutter_my_app/domain/usecases/create_task_usecase.dart';
 import 'package:flutter_my_app/domain/usecases/get_list_of_tasks_usecase.dart';
 import 'package:flutter_my_app/domain/usecases/get_task_usecase.dart';
+import 'package:flutter_my_app/domain/usecases/remove_task_usecase.dart';
 import 'package:mobx/mobx.dart';
 
 part 'task_controller.g.dart';
@@ -9,12 +11,13 @@ part 'task_controller.g.dart';
 class TaskController = _TaskController with _$TaskController;
 
 abstract class _TaskController with Store {
-  _TaskController(this._getTaskUsecase, this._getAllTasksUsecase) {
-    // fetch();
-  }
+  _TaskController(this._getTaskUsecase, this._getAllTasksUsecase,
+      this._removeTaskUsecase, this._createNewTaskUsecase);
 
   final IGetTaskUsecase _getTaskUsecase;
   final IGetListOfTasksUsecase _getAllTasksUsecase;
+  final IRemoveTaskUsecase _removeTaskUsecase;
+  final ICreateNewTaskUsecase _createNewTaskUsecase;
 
   @observable
   var list = ObservableList<TaskEntity>();
@@ -25,8 +28,8 @@ abstract class _TaskController with Store {
   TaskEntity? taskInCache;
 
   @action
-  fetch() async {
-    final result = await _getTaskUsecase.call();
+  fetch(String task) async {
+    final result = await _getTaskUsecase.call(task);
 
     result.fold(
         (error) => error,
@@ -51,6 +54,30 @@ abstract class _TaskController with Store {
       );
     } on Exception catch (e) {
       rethrow;
+    }
+  }
+
+  @action
+  deleteNamedTask(String name) async {
+    try {
+      await _removeTaskUsecase(name);
+      recoverAllTasks();
+    } on Exception {
+      print('Não deu certo');
+    }
+  }
+
+  createTask(
+      {required String name,
+      required int difficulty,
+      required bool isFinished}) async {
+    try {
+      final newTask = TaskEntity(
+          name: name, difficulty: difficulty, isFinished: isFinished);
+      await _createNewTaskUsecase(newTask);
+      fetch(newTask.name);
+    } on Exception {
+      print('Não deu certo');
     }
   }
 }

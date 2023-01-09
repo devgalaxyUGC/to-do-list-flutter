@@ -18,4 +18,9 @@ class TaskEntity {
       required this.isFinished});
 
   List<Object?> get props => [name, difficulty, imgSrc, isFinished];
+
+  @override
+  String toString() {
+    return '\nTask Name: $name with $difficulty levels of difficulty and status: $isFinished. Finally, its image source is: $imgSrc';
+  }
 }
